@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="personStyle.css">
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+	<div class="wrapper">
+
+		<!-- HEADER -->
+		<header class="header">
+			
+			
+				<div class="header__first-block">
+					<div class="container">
+						<div class="header__inner">
+							<div class="header__info">
+								
+									<svg class="phone">
+										<use xlink:href="#phone"></use>
+									</svg>
+									
+									<p class="info">8 (812) 123-45-67</p>
+									<p class="info">|</p>
+									<p class="info">Работаем 7 дней в неделю </p>
+									<p class="info">|</p>
+									<p class="info">9:00 — 18:00 </p>
+								</div>
+								<?php if(empty($_COOKIE['username'])){?>
+								<div class="header__reg">
+
+									<a class="reg header__reg" href="Registration.php?pa=1" id="login">
+										<svg class="shop">
+											<use xlink:href="#shop"></use>
+										</svg>
+										<span>Войти</span>
+									</a>
+
+									<p class="reg">/</p>
+									<a class="reg" href="Registration.php?pa=2" id="registration">Регистрация</a>
+								</div>
+								<?php } else{ ?>
+									<div class="profile">
+
+										<div>
+											<a class="profile__link" href="myprofile.php">
+												Мой профиль
+												<svg class='profile__img'>
+													<use xlink:href="#profile"></use>
+												</svg>
+											</a>
+										</div>	
+
+										<div><a class="profile__link" href="exit.php">Выйти</a></div>
+									</div>
+								<?php } ?>
+								
+
+							</div>
+						</div>
+					</div>
+
+					<div class="header__second-block">
+						<div class="container">
+							<div class="header__inner">
+								<a href="#" class="logo">
+									<p>PORTEN</p>
+								</a>
+								
+
+								<nav class="nav">
+
+										<ul>
+											<li><a href="#" class="link">Понравилось</a>
+											<li><a href="#" class="link">Личный кабинет</a>
+											<li><a href="#" class="link">Настройка</a>
+										</ul>
+										
+										
+										<svg class="trolley">
+											<use xlink:href="#trolley"></use>
+										</svg> 
+										
+										<svg class="search">
+											<use xlink:href="#search"></use>
+										</svg>
+										
+								</nav>
+						</div>
+					</div>
+
+				</div>	
+
+				
+		</header>
+
+
+
+
+
+
+
+
+
+	<!-- INTERFACE -->
+		<div class="interface">
+			<div class="container">
+				<div class="interface__inner">
+					<nav class="tabs">
+						<a href="#tab1" class="tab"></a>
+						<a href="#tab2" class="tab"></a>
+						<a href="#tab3" class="tab"></a>
+						<a href="#tab4" class="tab"></a>
+						<a href="#tab5" class="tab"></a>
+						<a href="#tab6" class="tab"></a>
+					</nav>
+					<div class="interface__blocks">
+						<div id="tab1" class="interface__block">1</div>
+						<div id="tab2" class="interface__block">2</div>
+						<div id="tab3" class="interface__block">3</div>
+						<div id="tab4" class="interface__block">4</div>
+						<div id="tab5" class="interface__block">5</div>
+						<div id="tab6" class="interface__block">6</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+	</div>
+	
+</body>
+</html>
