@@ -18,7 +18,6 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,12 +41,7 @@
 </head>
 <body>
 
-	<form id="link-extra-info" style="display: none">
-	  <input type="hidden" name="p" value="0">
-	</form>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-	<script src="javascriptRegistration.js?ts=<?=time()?>"></script>
+	
 
 	<!-- SPRITE -->
 

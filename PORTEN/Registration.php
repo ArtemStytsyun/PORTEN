@@ -28,7 +28,8 @@ function display_2()
 
 
 // Writing to DB
-$dbconnect = mysqli_connect('localhost','browser','123456789','practice');
+$dbconnect = mysqli_connect('localhost','browser','123456789','portendb');
+
 if(isset($_POST['submit__registration']))
 {
 	$username = mysqli_real_escape_string($dbconnect, trim($_POST['username__registration']));
