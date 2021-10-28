@@ -20,7 +20,7 @@ if (!empty($_POST)) {
 
 <?=template_header('Create')?>
 
-<div class="content update">
+<div class="Content update">
 	<h2>Create User</h2>
     <form action="create.php" method="post">
         <label for="id">ID</label>
