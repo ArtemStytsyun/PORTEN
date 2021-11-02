@@ -1,4 +1,5 @@
 <?php
+include 'authentication.php';
 include 'function.php';
 $pdo = pdo_connect_mysql();
 $msg = '';

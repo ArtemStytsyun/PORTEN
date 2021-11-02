@@ -1,5 +1,6 @@
 <?php 
-
+   
+    include 'authentication.php';
     include 'function.php';
 
     $pdo = pdo_connect_mysql();
@@ -17,9 +18,7 @@
 
     $num_users = $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
     
-?>
-
-<?=template_header('Read')?>
+    template_header('Read');?>
 
 <div class="content read">
 	<h2>Read users</h2>
