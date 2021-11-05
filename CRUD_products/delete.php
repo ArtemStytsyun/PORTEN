@@ -31,7 +31,7 @@ if (isset($_GET['id'])) {
     exit('No ID specified!');
 }
 ?>
-<?=template_header('Delete')?>
+<?=template_header('Delete',$_SESSION['login'])?>
 
 <div class="content delete">
 	<h2>Delete product #<?=$product['id']?></h2>

@@ -17,7 +17,7 @@ function pdo_connect_mysql()
 }
 
 //Шаблон верхнего колонтикула
-function template_header($title)
+function template_header($title, $user)
 {
     echo <<<EOT
     <!DOCTYPE html>
@@ -32,12 +32,14 @@ function template_header($title)
         <nav class="navtop">
             <div>
                 <h1>Website Title</h1>
-                <a href="index.php"><i class="fas fa-home"></i>Home</a>
-                <a href="read.php"><i class="fas fa-address-book"></i>Porten</a>
+                <a href="read.php"><i class="fas fa-address-book"></i>Home</a>
+                <a href="#"><i class="fas fa-address-book"></i>$user</a>
             </div>
         </nav>
     EOT;
 }
+
+
 
 //Шаблон нижнего колонтикула
 function template_footer() {

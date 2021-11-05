@@ -12,11 +12,10 @@ if (!empty($_POST)) {
     $season = isset($_POST['season']) ? $_POST['season'] : NULL;
     $year = isset($_POST['year']) ? $_POST['year'] : NULL;
     $created = isset($_POST['created']) ? $_POST['created'] : date('Y-m-d H:i:s');
-    $categories = isset($_POST['categories']) ? explode(" ",$_POST['categories']) : NULL;
-
+    $categories = isset($_POST['categories']) ? $_POST['categories'] : NULL;
     $stmt = $pdo->prepare('INSERT INTO Products VALUES (?, ?, ?, ?, ?, ?, ?)');
     $stmt->execute([$id, $name, $material, $color, $season, $year, $created]);
-    var_dump($categories);
+    
     foreach($categories as $categori)
     {
         echo $categori;
@@ -32,8 +31,6 @@ if (!empty($_POST)) {
         
         $stmt = $pdo->prepare('INSERT INTO Products_Categories VALUES (?, ?)');
         $stmt->execute([$id_Products, $id_Categories]);
-
-        
     }
 
     $msg = 'Created Successfully!';
@@ -41,9 +38,10 @@ if (!empty($_POST)) {
     
 ?>
 
-<?=template_header('Create')?>
 
-<div class="Content update">
+<?=template_header('Create',$_SESSION['login'])?>
+
+<div class="content update">
 	<h2>Create User</h2>
     <form action="create.php" method="post">
         <label for="id">ID</label>
@@ -52,7 +50,7 @@ if (!empty($_POST)) {
         <input type="text" name="name" placeholder="John Doe" id="name">
         <label for="material">Material</label>
         <label for="color">Color</label>
-        <input type="text" name="material" placeholder="johndoe@example.com" id="material">
+        <input type="text" name="material" placeholder="material" id="material">
         <input type="text" name="color" placeholder="red" id="color">
         <label for="created">Created</label>
         <label for="season">Season</label>
@@ -61,13 +59,29 @@ if (!empty($_POST)) {
         <label for="year">Year</label>
         <label for="categories">Categorise</label>
         <input type="text" name="year" id="year"> 
-        <input type="text" name="categories" id="categories"> 
-        
-        
 
+        <?php 
+         $query = $pdo->prepare("SELECT name FROM Categories");
+         $query->execute();
+         $query = $query->fetchAll(PDO::FETCH_ASSOC);
+        ?>
+        <label class="categories">
+        <?php foreach($query as $category)
+            {
+                $this_name_category = $category['name'];
+                echo <<<EOT
+                
+                    <label class="categories_label">
+                        <input type="checkbox" name="categories[]" class="categories_checkbox" value="$this_name_category">$this_name_category
+                    </label>
 
-
+                EOT;
+            } ?>
+        </label>
         <input type="submit" value="Create">
+       
+
+
     </form>
     <?php if ($msg){ ?>
     <p><?=$msg?></p>

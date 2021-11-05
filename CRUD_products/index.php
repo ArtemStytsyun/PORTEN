@@ -17,11 +17,11 @@ if(isset($_POST['submit']))
         {
             $_SESSION['login'] = $login;
             $_SESSION['password'] = $password;
-            $url = 'http://' . "localhost/CRUD_products/read.php";
+            $url = 'http://localhost/CRUD_products/read.php';
 			header('location: ' . $url);
         }
         else{
-            echo "@";
+            echo "wrong login or password";
         } 
     }
     

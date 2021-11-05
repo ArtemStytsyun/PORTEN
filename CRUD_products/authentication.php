@@ -10,7 +10,7 @@
 
         if(mysqli_num_rows($data) == 1 && password_verify($password, mysqli_fetch_assoc($data)['password'])) 
         {
-            echo $_SESSION['login'];
+            
         }
         else{
             

@@ -22,7 +22,7 @@
 
     $num_products = $pdo->query('SELECT COUNT(*) FROM Products')->fetchColumn();
     
-    template_header('Read');?>
+    template_header('Read', $_SESSION['login']);?>
 
 <div class="content read">
 	<h2>Read Products</h2>

@@ -117,7 +117,7 @@
 									<p class="info">|</p>
 									<p class="info">9:00 — 18:00 </p>
 								</div>
-								<?php if(empty($_COOKIE['username'])){?>
+								<?php if(empty($_COOKIE['login'])){?>
 								<div class="header__reg">
 
 									<a class="reg header__reg" href="Registration.php?pa=1" id="login">

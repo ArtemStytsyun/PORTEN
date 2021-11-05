@@ -28,26 +28,28 @@ function display_2()
 
 
 // Writing to DB
-$dbconnect = mysqli_connect('localhost','browser','123456789','portendb');
+$dbconnect = mysqli_connect('localhost','admin','Admin_Password123321','portendb');
 
 if(isset($_POST['submit__registration']))
 {
-	$username = mysqli_real_escape_string($dbconnect, trim($_POST['username__registration']));
+
+	$login = mysqli_real_escape_string($dbconnect, trim($_POST['login__registration']));
 	$email = mysqli_real_escape_string($dbconnect, trim($_POST['email__registration']));
 	$password = mysqli_real_escape_string($dbconnect, trim($_POST['password__registration']));
 	$repassword = mysqli_real_escape_string($dbconnect, trim($_POST['repassword__registration']));
 
-	if(!empty($username) && (!empty($email)) && (!empty($password)) && (!empty($repassword)) && ($repassword == $password))
+	if(!empty($login) && (!empty($email)) && (!empty($password)) && (!empty($repassword)) && ($repassword == $password))
 	{
-		$query = "SELECT * FROM `users` WHERE username = '$username'"; 
+		$query = "SELECT * FROM `users` WHERE login = '$login'"; 
 		$data = mysqli_query($dbconnect, $query);
 
+		$password = password_hash($password,PASSWORD_DEFAULT);
 		if(mysqli_num_rows($data) == 0)
 		{
-			$query = "INSERT INTO `users` (username, email, password) VALUES ('$username', '$email', SHA('$password'))";
+			$query = "INSERT INTO `users` (login, email, password) VALUES ('$login', '$email', '$password')";
 			mysqli_query($dbconnect,$query);
 			mysqli_close($dbconnect);
-			$url = 'http://' . "porten/Registration.php?pa=1";
+			$url = 'http://' . "localhost/PORTEN/Registration.php?pa=1";
 			header('location: ' . $url);
 		}
 		else
@@ -67,30 +69,34 @@ if(!isset($_COOKIE['id']))
 	
 	if(isset($_POST['submit__login']))
 	{
-		$username = mysqli_real_escape_string($dbconnect, trim($_POST['username__login']));
-		$password = mysqli_real_escape_string($dbconnect, trim($_POST['password__login']));
 
-		if(!empty($username) && !empty($password))
-		{
-			$query = "SELECT 'id', 'username' FROM  `users` WHERE username = '$username' AND password = SHA('$password') ";
+		$login = mysqli_real_escape_string($dbconnect, trim($_POST['login__login']));
+		$password = mysqli_real_escape_string($dbconnect, trim($_POST['password__login']));
+		$password = password_hash($password, PASSWORD_DEFAULT);
+
+		if(!empty($login) && !empty($password))
+		{	
+			
+			$query = "SELECT 'id', 'login' FROM  `users` WHERE login = '$login' AND password = '$password'";
 			$data = mysqli_query($dbconnect, $query);
 			if(mysqli_num_rows($data) == 1)
 			{
-				
 				$row = mysqli_fetch_assoc($data);
 				setcookie('id', $row['id'], time() + (60 * 60 * 24 * 30));
-				setcookie('username', $row['username'], time() + (60 * 60 * 24 * 30));
-				$home_url = 'http://' . $_SERVER['HTTP_HOST'];
+				setcookie('login', $row['login'], time() + (60 * 60 * 24 * 30));
+				$home_url = 'http://' . $_SERVER['HTTP_HOST'] . "/PORTEN";
 				header('location: ' . $home_url);
 			}
 			else
 			{
-				$url = 'http://' . "porten/Registration.php?pa=1";
+				$url = 'http://localhost/PORTEN/Registration.php?pa=1';
 				header('location: ' . $url);
 			}
 		}
 	}
+	else echo 1;
 }
+
 
 ?>
 
@@ -133,9 +139,17 @@ if(!isset($_COOKIE['id']))
 					<span class="block__button <?php if($_GET['pa'] == 1){echo "button__active";}?>" id="login">Войти</span>
 				</div>
 				<h1><?php if($_GET['pa'] == 1){echo "Войти";}else{echo "Регистрация";} ?></h1>
+				
+				<form action="<?php echo $_SERVER['PHP_SELF'];?>" class="form" id="form__login" method="POST" style="<?php display_2()?>">
+
+						<div class="form__input"><input type="text" name="login__login"placeholder="Имя пользователя"></div>
+						<div class="form__input"><input type="password" name="password__login" placeholder="Пароль"></div>
+						<div><button type="submit" name="submit__login" class="button" id="submit__login"><p class="button__text">Войти</p></button></div>
+
+				</form>
 				<form action="<?php echo $_SERVER['PHP_SELF'];?>" class="form" id="form__registration" method="POST" style="<?php display_1() ?>">
 					
-						<div class="form__input"><input type="text" name="username__registration"placeholder="Имя пользователя" ></div>
+						<div class="form__input"><input type="text" name="login__registration"placeholder="Имя пользователя" ></div>
 						<div class="form__input"><input type="email" name="email__registration" placeholder="Электронная почта" required></div>
 						<div class="form__input"><input type="password" name="password__registration" placeholder="Пароль"></div>
 						<div class="form__input"><input type="password" name="repassword__registration" placeholder="Повторите пароль"></div>
@@ -143,13 +157,7 @@ if(!isset($_COOKIE['id']))
 
 				</form>
 
-				<form action="<?php echo $_SERVER['PHP_SELF'];?>" class="form" id="form__login" id="login" method="POST" style="<?php display_2() ?>">
-
-						<div class="form__input"><input type="text" name="username__login"placeholder="Имя пользователя" ></div>
-						<div class="form__input"><input type="password" name="password__login" placeholder="Пароль"></div>
-						<div><button type="submit" class="button" name ="submit__login"><p class="button__text">Войти</p></button></div>
-
-				</form>
+				
 
 			</section>
 
