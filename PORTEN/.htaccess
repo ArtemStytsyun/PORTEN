@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteBase /PORTEN/
+RewriteRule .* categories.php [L]
+
+
+#RewriteRule ^http://localhost/PORTEN/([^/]+)/?$
+#http://localhost/PORTEN/categories.php?category=$1 [L]
