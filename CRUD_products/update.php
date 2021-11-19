@@ -9,22 +9,26 @@ if (isset($_GET['id'])) {
         $name = isset($_POST['name']) ? $_POST['name'] : '';
         $material = isset($_POST['material']) ? $_POST['material'] : '';
         $color = isset($_POST['color']) ? $_POST['color'] : NULL;
+
+        $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : NULL;
+        $price = isset($_POST['price']) ? $_POST['price'] : NULL;
+
         $season = isset($_POST['season']) ? $_POST['season'] : NULL;
         $year = isset($_POST['year']) ? $_POST['year'] : NULL;
         $created = isset($_POST['created']) ? $_POST['created'] : date('Y-m-d H:i:s');
         $categories = isset($_POST['categories']) ? $_POST['categories'] : NULL;
      
-        $stmt = $pdo->prepare('UPDATE Products SET id = ?, name = ?, material = ?, color = ?, season = ?, year = ?, created = ? WHERE id = ?');
-        $stmt->execute([$_GET['id'], $name, $material, $color, $season, $year, $created, $_GET['id']]);
+        $stmt = $pdo->prepare('UPDATE Products SET id = ?, name = ?, material = ?, color = ?, quantity = ?, price = ?, season = ?, year = ?, created = ? WHERE id = ?');
+        $stmt->execute([$_GET['id'], $name, $material, $color, $quantity, $price, $season, $year, $created, $_GET['id']]);
 
         $id = $_GET['id'];
 
         $query = $pdo->prepare("DELETE FROM Products_Categories WHERE id_Products = '$id'");
         $query->execute();
         
-        foreach($categories as $categori)
+        foreach($categories as $category)
         {
-            $query = $pdo->prepare("SELECT id FROM Categories WHERE name = '$categori'");
+            $query = $pdo->prepare("SELECT id FROM Categories WHERE name = '$category'");
             $query->execute();
             $query = $query->fetchAll(PDO::FETCH_ASSOC);
             $id_Categories = (int)$query[0]['id'];
@@ -42,14 +46,10 @@ if (isset($_GET['id'])) {
         
     }
 
-
-
-
-
     $stmt = $pdo->prepare('SELECT * FROM Products WHERE id = ?');
     $stmt->execute([$_GET['id']]);
     $product = $stmt->fetch(PDO::FETCH_ASSOC);
-    var_dump($product['id']);
+
     if (!$product) {
         exit('Contact doesn\'t exist with that ID!');
     }
@@ -72,6 +72,12 @@ if (isset($_GET['id'])) {
         <label for="color">Color</label>
         <input type="text" name="material" placeholder="material" id="material" value="<?php echo $product['material']?>">
         <input type="text" name="color" placeholder="red" id="color" value="<?php echo $product['color']?>">
+
+        <label for="quantity">Quantity</label>
+        <label for="price">price</label>
+        <input type="text" name="quantity" placeholder="2" id="quantity" value="<?php echo $product['quantity']?>">
+        <input type="text" name="price" placeholder="200" id="price" value="<?php echo $product['price']?>">
+
         <label for="created">Created</label>
         <label for="season">Season</label>
         <input type="datetime-local" name="created" value="<?=date('Y-m-d\TH:i', strtotime($product['created']))?>" id="created">
@@ -95,12 +101,12 @@ if (isset($_GET['id'])) {
             $query_1 = $query_1->fetchAll(PDO::FETCH_ASSOC);
                     
             $i = 0;
+            //Checked for categories, that the product has
             foreach($query as $category)
             {
                 $checked;
                 $this_name_category = $category['name'];
-                if($category['id'] == $query_1[$i]['id_Categories'])
-                {
+                if($category['id'] == $query_1[$i]['id_Categories']){
                     $checked = 'checked';
                     $i++;
                 }

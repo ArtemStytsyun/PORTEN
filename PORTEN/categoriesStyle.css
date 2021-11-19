@@ -1,0 +1,8 @@
+.categories__list{
+    padding: 100px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: auto;
+	justify-items: center;
+    grid-gap: 40px 23px; 
+}

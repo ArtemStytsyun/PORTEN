@@ -15,6 +15,24 @@
     $query->execute();
     $categories = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    porten_header();
+    porten_header('<link rel="stylesheet" href="categoriesStyle.css">');
+?>
+
+
+
+
+<main class="categories">
+    <div class="container">
+        <div class="categories__list">
+            <?php
+            show_products_with_category($_GET['name']);
+            ?>
+        </div>
+    </div>
+</main>    
+
+
+
+<?php
     porten_footer($exist_categories, $categories);
 ?>

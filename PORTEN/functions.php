@@ -1,7 +1,8 @@
 <?php
 
+
 //function for main header
-function porten_header()
+function porten_header($header_rule = "")
 {
     $login = $_COOKIE['login'];
     echo <<<EOT
@@ -9,9 +10,10 @@ function porten_header()
     <!DOCTYPE html>
     <html lang="en">
     <head>
+        <base href="/PORTEN/">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <link rel="stylesheet" href="mainStyle.css?ts=<?=time()?>">
+        <link rel="stylesheet" type="text/css" href="mainStyle.css">
         <title>Porten</title>
 
         <!-- FONTS -->
@@ -25,6 +27,8 @@ function porten_header()
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+        $header_rule
 
     </head>
     <body>
@@ -236,21 +240,23 @@ function porten_header()
 function show_avialable_categories($exist_categories, $categories)
 {
     $i = 0;
-								foreach($categories as $category)
-								{	
-									
-									if($category['id'] == $exist_categories[$i]['id_Categories']){
-										
-										$this_name_category = $category['name'];
-										echo <<<EOT
-											<a href="http://localhost/PORTEN/$this_name_category/" class="category__item">$this_name_category</a>
+    foreach($categories as $category)
+    {	
+        if($category['id'] == $exist_categories[$i]['id_Categories'])
+        {
+            $this_name_category = $category['name'];
+            echo <<<EOT
+            <a href="http://localhost/PORTEN/categories/$this_name_category" class="category__item">$this_name_category</a>
+            EOT; 
+            $i++;
+        }
 
-										EOT; 
-										$i++;
-									}
-
-								}
+    }
 }
+
+
+
+
 
 
 
@@ -284,8 +290,6 @@ function porten_footer($exist_categories, $categories)
 
 					</div>
 						
-
-					
 
 					<div class = "footer__block mailing">
 						<h3 class = "title">Рассылка</h3>
@@ -334,6 +338,52 @@ EOT;
 
 
 
+
+
+
+//for show all card with specific category
+function show_products_with_category($category_name)
+{
+    try{
+        $pdo = new PDO('mysql:host=localhost;dbname=portendb;charset=utf8','admin','Admin_Password123321');
+    }catch(PDOException $exception){
+        exit("Failed connnecting to the database");
+    }
+
+    //connecting to categories db and select all id for this category
+    //connecting to product_categories db and select list id products with this category
+  
+    $stml = $pdo->prepare("SELECT * FROM Products_Categories WHERE id_Categories = (SELECT DISTINCT id FROM Categories WHERE name = '$category_name')");
+    $stml->execute();
+    $products_id_array = $stml->fetchAll(PDO::FETCH_ASSOC);
+
+
+    //show all products with this category
+    foreach($products_id_array as $product)
+    {
+        $product_id = $product['id_Products'];
+       
+        //connecting to the products db and select all information about the specific product with this category 
+        $stml = $pdo->prepare("SELECT * FROM Products WHERE id = '$product_id'");
+        $stml->execute();
+        $product_name = $stml->fetchAll(PDO::FETCH_ASSOC)[0]['name'];
+        
+        echo <<<EOT
+            <div class="card">
+                <a href="products/$product_name">
+                    <div class="card__block">
+                        <img src="img/cards/Louis XVI ATHOS.png" alt="" class="card__product">
+                    </div>
+                </a>
+                <p class="card__title">$product_name</p>
+                <p class="card__subtitle">
+                165 000 руб.  
+                </p>
+            </div>
+        EOT;
+    }
+    
+}
 
 
 ?>

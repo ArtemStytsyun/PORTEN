@@ -1,7 +1,8 @@
 RewriteEngine on
+
 RewriteBase /PORTEN/
-RewriteRule .* categories.php [L]
+RewriteRule ^categories/(.*)$ categories.php?name=$1 
 
+RewriteRule ^product_default\.php$ [F]
 
-#RewriteRule ^http://localhost/PORTEN/([^/]+)/?$
-#http://localhost/PORTEN/categories.php?category=$1 [L]
+RewriteRule ^products/(.*)$ product.php?products_name=$2 

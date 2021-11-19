@@ -496,9 +496,6 @@ form{
 	padding-top: 160px;
 }
 
-.intro__inner{
-
-}
 
 .block{
 	margin: auto;
@@ -812,10 +809,6 @@ form{
 
 
 /* ---------------------------------------- NEWARRIVALS ------------------------------------------ */
-.newArrivals{
-	
-}
-
 .newArrivals__inner
 {	
 	padding: 150px 0;
@@ -1135,7 +1128,7 @@ input{
 	}
 
 	.newArrivals__products{
-		 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 	}
 
 	.footer__block{
@@ -1372,8 +1365,6 @@ input{
 		font-size: 12px;
 	}
 
-	.collections__cards .card__block{
-	}
 
 	.collections__cards{
 		height: 350px;

@@ -9,17 +9,21 @@ if (!empty($_POST)) {
     $name = isset($_POST['name']) ? $_POST['name'] : '';
     $material = isset($_POST['material']) ? $_POST['material'] : '';
     $color = isset($_POST['color']) ? $_POST['color'] : NULL;
+
+    $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : NULL;
+    $price = isset($_POST['price']) ? $_POST['price'] : NULL;
+
     $season = isset($_POST['season']) ? $_POST['season'] : NULL;
     $year = isset($_POST['year']) ? $_POST['year'] : NULL;
     $created = isset($_POST['created']) ? $_POST['created'] : date('Y-m-d H:i:s');
     $categories = isset($_POST['categories']) ? $_POST['categories'] : NULL;
-    $stmt = $pdo->prepare('INSERT INTO Products VALUES (?, ?, ?, ?, ?, ?, ?)');
-    $stmt->execute([$id, $name, $material, $color, $season, $year, $created]);
+    $stmt = $pdo->prepare('INSERT INTO Products VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    $stmt->execute([$id, $name, $material, $color, $quantity, $price ,$season, $year, $created]);
     
-    foreach($categories as $categori)
+    foreach($categories as $category)
     {
-        echo $categori;
-        $query = $pdo->prepare("SELECT id FROM Categories WHERE name = '$categori'");
+        echo(1);
+        $query = $pdo->prepare("SELECT id FROM Categories WHERE name = '$category'");
         $query->execute();
         $query = $query->fetchAll(PDO::FETCH_ASSOC);
         $id_Categories = (int)$query[0]['id'];
@@ -52,6 +56,12 @@ if (!empty($_POST)) {
         <label for="color">Color</label>
         <input type="text" name="material" placeholder="material" id="material">
         <input type="text" name="color" placeholder="red" id="color">
+        
+        <label for="material">Quantity</label>
+        <label for="color">Price($)</label>
+        <input type="text" name="quantity" placeholder="quantity" id="quantity">
+        <input type="text" name="price" placeholder="200" id="price">
+
         <label for="created">Created</label>
         <label for="season">Season</label>
         <input type="datetime-local" name="created" value="<?=date('Y-m-d\TH:i')?>" id="created">
@@ -72,7 +82,7 @@ if (!empty($_POST)) {
                 echo <<<EOT
                 
                     <label class="categories_label">
-                        <input type="checkbox" name="categories[]" class="categories_checkbox" value="$this_name_category">$this_name_category
+                        <input type="checkbox" name="categories[]" class="categories_checkbox" value="$this_name_category">$this_name_category 
                     </label>
 
                 EOT;
